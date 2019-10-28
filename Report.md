@@ -52,7 +52,7 @@ The critic network is used to compute state-action values. It outputs 1 real num
 
 The chart above shows an average reward over 100 consecutive episodes.<br/>
 It's very flat until 1000 episodes and then it explodes. The agent reaches higher values via cooperation.<br/>
-The agent reaches the level required for considering environment solved in 1708 episodes.<br/>
+The agent reaches the level required for considering environment solved (0.5 average episode score) in 1708 episodes.<br/>
 This is a gif of the trained agent playing. Complete video is available [here](/Videos/Agent.mov)
 
 ![GIF](/Videos/Agent.gif)
