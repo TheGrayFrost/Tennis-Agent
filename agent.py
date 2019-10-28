@@ -80,11 +80,13 @@ class Agent():
         self.noise.reset()
 
     def learn(self, experiences, gamma):
-        """Update policy and value parameters using given batch of experience tuples.
-        Q_targets = r + γ * target_critic(next_state, target_actor(next_state))
-        where:
-            target_actor(state) -> action
-            target_critic(state, action) -> Q-value
+        """
+        Target and Local Critics-Actors are used to sove the moving targets problem.
+        TargetActor generates the next action, and TargetCritic generates the corresponding Q-value.
+        This function updates policy and value parameters using given batch of experience tuples.
+
+        Q_targets = r + gamma * critic_t(next_state, actor_t(next_state))
+
         Params
         ======
             experiences (Tuple[torch.Tensor]): tuple of (s, a, r, s', done) tuples 
@@ -124,7 +126,8 @@ class Agent():
 
     def soft_update(self, local_model, target_model, tau):
         """Soft update model parameters.
-        θ_target = τ*θ_local + (1 - τ)*θ_target
+        this function manages the update of local and target models syncing
+        theta_target = tau*theta_local + (1 - tau)*theta_target
         Params
         ======
             local_model: PyTorch model (weights will be copied from)

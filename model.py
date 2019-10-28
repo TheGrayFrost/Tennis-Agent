@@ -16,64 +16,64 @@ def hidden_init(layer):
 class ActorNetwork(nn.Module):
     """Actor (Policy) Model."""
 
-    def __init__(self, state_size, action_size, seed, fc1_units=units1, fc2_units=units2):
+    def __init__(self, state_size, action_size, seed, fc_1_units=units1, fc_2_units=units2):
         """Initialize parameters and build model.
         Params
         ======
             state_size (int): Dimension of each state
             action_size (int): Dimension of each action
             seed (int): Random seed
-            fc1_units (int): Number of nodes in first hidden layer
-            fc2_units (int): Number of nodes in second hidden layer
+            fc_1_units (int): Number of nodes in first hidden layer
+            fc_2_units (int): Number of nodes in second hidden layer
         """
         super(ActorNetwork, self).__init__()
         self.seed = torch.manual_seed(seed)
-        self.fc1 = nn.Linear(state_size, fc1_units)
-        self.fc2 = nn.Linear(fc1_units, fc2_units)
-        self.fc3 = nn.Linear(fc2_units, action_size)
-        self.reset_parameters()
+        self.fc_1 = nn.Linear(state_size, fc_1_units)
+        self.fc_2 = nn.Linear(fc_1_units, fc_2_units)
+        self.fc_3 = nn.Linear(fc_2_units, action_size)
+        self.initialize()
 
-    def reset_parameters(self):#inicialitation 
-        self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
-        self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
-        self.fc3.weight.data.uniform_(-3e-3, 3e-3)
+    def initialize(self): # initialization 
+        self.fc_1.weight.data.uniform_(*hidden_init(self.fc_1))
+        self.fc_2.weight.data.uniform_(*hidden_init(self.fc_2))
+        self.fc_3.weight.data.uniform_(-3e-3, 3e-3)
 
-    def forward(self, state):#forward pass
+    def forward(self, state): # forward pass
         """Build an actor (policy) network that maps states -> actions."""
-        x = F.relu(self.fc1(state))
-        x = F.relu(self.fc2(x))
-        return torch.tanh(self.fc3(x))
+        x = F.relu(self.fc_1(state))
+        x = F.relu(self.fc_2(x))
+        return torch.tanh(self.fc_3(x))
 
 
 class CriticNetwork(nn.Module):
     """Critic (Value) Model."""
 
-    def __init__(self, state_size, action_size, seed, fcs1_units=units1, fc2_units=units2):
+    def __init__(self, state_size, action_size, seed, fc_s1_units=units1, fc_2_units=units2):
         """Initialize parameters and build model.
         Params
         ======
             state_size (int): Dimension of each state
             action_size (int): Dimension of each action
             seed (int): Random seed
-            fcs1_units (int): Number of nodes in the first hidden layer
-            fc2_units (int): Number of nodes in the second hidden layer
+            fc_s1_units (int): Number of nodes in the first hidden layer
+            fc_2_units (int): Number of nodes in the second hidden layer
         """
         super(CriticNetwork, self).__init__()
         self.seed = torch.manual_seed(seed)
-        self.fcs1 = nn.Linear(state_size, fcs1_units)
-        self.fc2 = nn.Linear(fcs1_units+action_size, fc2_units)
-        self.fc3 = nn.Linear(fc2_units, 1)
-        self.reset_parameters()
+        self.fc_s1 = nn.Linear(state_size, fc_s1_units)
+        self.fc_2 = nn.Linear(fc_s1_units+action_size, fc_2_units)
+        self.fc_3 = nn.Linear(fc_2_units, 1)
+        self.initialize()
 
-    def reset_parameters(self):
-        self.fcs1.weight.data.uniform_(*hidden_init(self.fcs1))
-        self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
-        self.fc3.weight.data.uniform_(-3e-3, 3e-3)
+    def initialize(self):
+        self.fc_s1.weight.data.uniform_(*hidden_init(self.fc_s1))
+        self.fc_2.weight.data.uniform_(*hidden_init(self.fc_2))
+        self.fc_3.weight.data.uniform_(-3e-3, 3e-3)
 
 
-    def forward(self, state, action): #concatenate the action -value
+    def forward(self, state, action): # concatenate the action-value
         """Build a critic (value) network that maps (state, action) pairs -> Q-values."""
-        xs = F.relu(self.fcs1(state)) #F.leaky_relu
+        xs = F.relu(self.fc_s1(state)) # can try F.leaky_relu
         x = torch.cat((xs, action), dim=1)
-        x = F.relu(self.fc2(x))
-        return self.fc3(x)
+        x = F.relu(self.fc_2(x))
+        return self.fc_3(x)
