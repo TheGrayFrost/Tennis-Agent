@@ -13,9 +13,9 @@ This project is my solution for the [Tennis](https://github.com/Unity-Technologi
 
 ![Trained Agent][image1]
 
-In this environment, two agents control rackets to bounce a ball over a net. If an agent hits the ball over the net, it receives a reward of +0.1.  If an agent lets a ball hit the ground or hits the ball out of bounds, it receives a reward of -0.01.  Thus, the goal of each agent is to keep the ball in play.
+The Unity tennis environment has two agents bouncing a ball back and forth over a net using rackets. A reward of +0.1 is recieved if you hit the ball to the other side. If the ball falls or goes out of bounds, a reward of -0.01 is recieved. So, the goal is to keep hitting the ball over as long as you can.
 
-The observation space consists of 8 variables corresponding to the position and velocity of the ball and racket. Each agent receives its own, local observation.  Two continuous actions are available, corresponding to movement toward (or away from) the net, and jumping. 
+The observation space has 8 variables for the position and velocity of the ball and racket. Each agent receives its own, local observation. Two continuous actions are available, corresponding to movement toward (or away from) the net, and jumping. 
 
 ### Getting Started
 
